@@ -28,10 +28,26 @@
          FILTROS AVANZADOS
          =============================== -->
     <div class="filtros">
-      <input type="text" v-model="filtroTipo" placeholder="Tipo (motosierra, taladro…)" />
-      <input type="text" v-model="filtroMarca" placeholder="Marca (STIHL, Makita…)" />
-      <input type="number" v-model.number="precioMin" placeholder="Precio mínimo" />
-      <input type="number" v-model.number="precioMax" placeholder="Precio máximo" />
+      <input
+        type="text"
+        v-model="filtroTipo"
+        placeholder="Tipo (motosierra, taladro…)"
+      />
+      <input
+        type="text"
+        v-model="filtroMarca"
+        placeholder="Marca (STIHL, Makita…)"
+      />
+      <input
+        type="number"
+        v-model.number="precioMin"
+        placeholder="Precio mínimo"
+      />
+      <input
+        type="number"
+        v-model.number="precioMax"
+        placeholder="Precio máximo"
+      />
 
       <select v-model="orden">
         <option value="">Orden</option>
@@ -55,7 +71,7 @@
         <img :src="'/img/' + p.imagen" :alt="p.nombre" />
         <h3>{{ p.nombre }}</h3>
         <p>{{ p.descripcion }}</p>
-        <strong>{{ p.precio }} €</strong><br>
+        <strong>{{ p.precio }} €</strong><br />
         <small>Stock: {{ p.stock }}</small>
       </div>
     </div>
@@ -64,7 +80,10 @@
          PAGINACIÓN
          =============================== -->
     <div class="paginacion" v-if="totalPaginas > 1">
-      <button @click="cambiarPagina(paginaActual - 1)" :disabled="paginaActual === 1">
+      <button
+        @click="cambiarPagina(paginaActual - 1)"
+        :disabled="paginaActual === 1"
+      >
         Anterior
       </button>
 
@@ -77,15 +96,20 @@
         {{ n }}
       </button>
 
-      <button @click="cambiarPagina(paginaActual + 1)" :disabled="paginaActual === totalPaginas">
+      <button
+        @click="cambiarPagina(paginaActual + 1)"
+        :disabled="paginaActual === totalPaginas"
+      >
         Siguiente
       </button>
     </div>
 
     <!-- Información adicional -->
     <p v-if="totalResultados > 0">
-      Mostrando página {{ paginaActual }} de {{ totalPaginas }}
-      ({{ totalResultados }} productos en total)
+      Mostrando página {{ paginaActual }} de {{ totalPaginas }} ({{
+        totalResultados
+      }}
+      productos en total)
     </p>
   </div>
 </template>
@@ -94,41 +118,39 @@
 /* ============================================================
    IMPORTS
    ============================================================ */
-import { ref } from "vue"
+import { ref } from "vue";
 
 // Importamos las funciones del servicio api.js
 // Estas funciones ya saben cómo llamar al backend Flask
 import {
   obtenerProductos,
   filtrarProductos,
-  buscarProductos
-} from "@/services/api"
-
+  buscarProductos,
+} from "@/services/api";
 
 /* ============================================================
    VARIABLES REACTIVAS DEL COMPONENTE
    ============================================================ */
 
 // Lista de productos cargados desde el backend
-const productos = ref([])
+const productos = ref([]);
 
 // Indicador de carga (muestra "Cargando...")
-const loading = ref(true)
+const loading = ref(true);
 
 // Campos de búsqueda y filtrado
-const terminoBusqueda = ref("")
-const filtroTipo = ref("")
-const filtroMarca = ref("")
-const precioMin = ref(null)
-const precioMax = ref(null)
-const orden = ref("")
+const terminoBusqueda = ref("");
+const filtroTipo = ref("");
+const filtroMarca = ref("");
+const precioMin = ref(null);
+const precioMax = ref(null);
+const orden = ref("");
 
 // Paginación gestionada por el backend
-const paginaActual = ref(1)
-const porPagina = ref(10)
-const totalPaginas = ref(1)
-const totalResultados = ref(0)
-
+const paginaActual = ref(1);
+const porPagina = ref(10);
+const totalPaginas = ref(1);
+const totalResultados = ref(0);
 
 /* ============================================================
    FUNCIÓN PRINCIPAL: cargar la lista de productos filtrados
@@ -137,7 +159,7 @@ const totalResultados = ref(0)
    - Actualiza la lista, total de páginas y total de resultados
    ============================================================ */
 const cargarProductos = async () => {
-  loading.value = true
+  loading.value = true;
 
   try {
     // Llamamos a api.js con los parámetros actuales
@@ -148,24 +170,22 @@ const cargarProductos = async () => {
       marca: filtroMarca.value,
       precio_min: precioMin.value,
       precio_max: precioMax.value,
-      ordenar: orden.value
-    })
+      ordenar: orden.value,
+    });
 
     // El backend devuelve un objeto con:
     // productos, pagina_actual, total_paginas, total_resultados
-    productos.value = data.productos
-    paginaActual.value = data.pagina_actual
-    totalPaginas.value = data.total_paginas
-    totalResultados.value = data.total_resultados
-
+    productos.value = data.productos;
+    paginaActual.value = data.pagina_actual;
+    totalPaginas.value = data.total_paginas;
+    totalResultados.value = data.total_resultados;
   } catch (e) {
-    console.error("Error cargando productos:", e)
-    productos.value = []
+    console.error("Error cargando productos:", e);
+    productos.value = [];
   }
 
-  loading.value = false
-}
-
+  loading.value = false;
+};
 
 /* ============================================================
    FUNCIÓN: realizar búsqueda general
@@ -174,55 +194,51 @@ const cargarProductos = async () => {
    - Se ejecuta al pulsar ENTER o el botón Buscar
    ============================================================ */
 const accionBuscar = async () => {
-  paginaActual.value = 1
+  paginaActual.value = 1;
 
   // Si no hay texto, recargamos el catálogo normal
   if (!terminoBusqueda.value.trim()) {
-    cargarProductos()
-    return
+    cargarProductos();
+    return;
   }
 
-  loading.value = true
+  loading.value = true;
 
   try {
-    const resultados = await buscarProductos(terminoBusqueda.value)
-    productos.value = resultados
+    const resultados = await buscarProductos(terminoBusqueda.value);
+    productos.value = resultados;
 
     // La búsqueda devuelve un array simple
-    totalResultados.value = resultados.length
-    totalPaginas.value = Math.ceil(resultados.length / porPagina.value)
-
+    totalResultados.value = resultados.length;
+    totalPaginas.value = Math.ceil(resultados.length / porPagina.value);
   } catch (e) {
-    console.error("Error en la búsqueda:", e)
+    console.error("Error en la búsqueda:", e);
   }
 
-  loading.value = false
-}
-
+  loading.value = false;
+};
 
 /* ============================================================
    FUNCIÓN: filtrado (reinicia a página 1)
    ============================================================ */
 const accionFiltrar = () => {
-  paginaActual.value = 1
-  cargarProductos()
-}
-
+  paginaActual.value = 1;
+  cargarProductos();
+};
 
 /* ============================================================
    FUNCIÓN: cambiar página (botones numerados)
    ============================================================ */
 const cambiarPagina = (nuevaPagina) => {
-  if (nuevaPagina < 1 || nuevaPagina > totalPaginas.value) return
-  paginaActual.value = nuevaPagina
-  cargarProductos()
-}
-
+  if (nuevaPagina < 1 || nuevaPagina > totalPaginas.value) return;
+  paginaActual.value = nuevaPagina;
+  cargarProductos();
+};
 
 /* ============================================================
    CARGA INICIAL DEL COMPONENTE
    ============================================================ */
-cargarProductos()
+cargarProductos();
 </script>
 
 <style scoped>
@@ -238,7 +254,7 @@ cargarProductos()
   background: white;
   padding: 1rem;
   border-radius: 10px;
-  box-shadow: 0 0 5px rgba(0,0,0,0.1);
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
 }
 
 .card img {
@@ -260,7 +276,7 @@ cargarProductos()
 }
 
 button.activo {
-  background-color: #4CAF50;
+  background-color: #4caf50;
   color: white;
   font-weight: bold;
 }
