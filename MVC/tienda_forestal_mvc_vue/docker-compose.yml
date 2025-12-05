@@ -1,4 +1,4 @@
-#version: "3.9" #Es un argumneto obsoleto.
+##version: "3.9" #Es un argumneto obsoleto.
 #              #Declaramos la version de la especificacion del archivo compose
 #en las versiones actualizadas de docker no es necesario, ya que
 #lo detecta automaticamente.
