@@ -18,11 +18,11 @@
     <input
       type="text"
       v-model="terminoBusqueda"
-      placeholder="Buscar por nombre, tipo o marca"
-      @keyup.enter="accionBuscar"
+      placeholder="Sólo nombre, tipo o marca - DiegoEspMig"
+      @keyup.enter="accionSearch"
       class="search-input"
     />
-    <button @click="accionBuscar">Buscar</button>
+    <button @click="accionSearch">Search</button>
 
     <!-- ===============================
          FILTROS AVANZADOS
@@ -71,7 +71,7 @@
         <img :src="'/img/' + p.imagen" :alt="p.nombre" />
         <h3>{{ p.nombre }}</h3>
         <p>{{ p.descripcion }}</p>
-        <strong>{{ p.precio }} €</strong><br />
+        <strong>{{ p.precio }} bucks</strong><br />
         <small>Stock: {{ p.stock }}</small>
       </div>
     </div>
@@ -193,7 +193,7 @@ const cargarProductos = async () => {
    - Llama a /api/productos/buscar?termino=...
    - Se ejecuta al pulsar ENTER o el botón Buscar
    ============================================================ */
-const accionBuscar = async () => {
+const accionSearch = async () => {
   paginaActual.value = 1;
 
   // Si no hay texto, recargamos el catálogo normal
