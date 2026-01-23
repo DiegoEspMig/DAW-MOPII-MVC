@@ -84,7 +84,7 @@
         @click="cambiarPagina(paginaActual - 1)"
         :disabled="paginaActual === 1"
       >
-        Anterior
+        ← Anterior
       </button>
 
       <button
@@ -100,12 +100,12 @@
         @click="cambiarPagina(paginaActual + 1)"
         :disabled="paginaActual === totalPaginas"
       >
-        Siguiente
+        Siguiente →
       </button>
     </div>
 
     <!-- Información adicional -->
-    <p v-if="totalResultados > 0">
+    <p v-if="totalResultados > 0" style="color: forestgreen;font-size: 200%;" >
       Mostrando página {{ paginaActual }} de {{ totalPaginas }} ({{
         totalResultados
       }}
@@ -244,40 +244,60 @@ cargarProductos();
 <style scoped>
 /* ---- DISEÑO BÁSICO PARA GRID DE PRODUCTOS ---- */
 
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: 1rem;
+.grid { 
+  display: grid; 
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); 
+  gap: 2rem; }
+
+.card { background: repeating-linear-gradient( 
+  to right, #ffffff 0, 
+  #ffffff calc(100% / 13), 
+  #00a651 calc(100% / 13), 
+  #00a651 calc(2 * (100% / 13)) 
+  ); 
+  padding: 1.2rem; border-radius: 12px; 
+  border: 3px dashed #00a651; 
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12); 
+  transition: transform 0.2s ease, box-shadow 0.2s ease; 
 }
 
-.card {
-  background: white;
-  padding: 1rem;
-  border-radius: 10px;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+.card:hover { 
+  transform: translateY(-4px); 
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18); 
 }
 
 .card img {
   width: 100%;
   height: 150px;
   object-fit: cover;
+  border-radius: 6px;
 }
 
 .filtros {
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem;
+  gap: 1rem;
 }
 
-.paginacion button {
-  margin: 0 4px;
-  padding: 0.5rem 0.8rem;
+.paginacion button { 
+  margin: 0 4px; 
+  padding: 0.5rem 0.9rem; 
+  border-radius: 6px; 
+  border: 1px solid #ccc; 
+  background: #f7f7f7; 
+  cursor: pointer; 
+  transition: background 0.2s ease, color 0.2s ease; 
+}
+
+.paginacion button:hover { 
+  background: #eaeaea; 
 }
 
 button.activo {
-  background-color: #4caf50;
-  color: white;
+  background-color: gold;
+  color: darkolivegreen;
   font-weight: bold;
+  border-color: goldenrod;
 }
 </style>
